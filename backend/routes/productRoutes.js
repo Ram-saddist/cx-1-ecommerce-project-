@@ -16,6 +16,8 @@ function uploadToGridFS(bucket, file) {
         uploadStream.on("error", reject)
     })
 }
+
+
 router.post(
     "/add-product",
     protect,
@@ -39,7 +41,7 @@ router.post(
                 stock,
                 images: imageIds
             })
-
+            console.log("seller adding product --------",newProduct)
             res.status(201).json({
                 message: "Product added successfully",
                 product: newProduct
@@ -76,26 +78,26 @@ router.get(
         }
     }
 )
-// router.get("/image/:id", async (req, res) => {
-//     try {
-//         const bucket = req.app.locals.bucket
-//         const fileId = new mongoose.Types.ObjectId(req.params.id)
-//         const downloadStream = bucket.openDownloadStream(fileId)
-//         downloadStream.on("data", (chunk) => {
-//             res.write(chunk)
-//         })
-//         downloadStream.on("error", () => {
-//             return res.status(404).json({
-//                 message: "Image not found"
-//             })
-//         })
-//         downloadStream.on("end", () => {
-//             res.end()
-//         })
-//     } catch (err) {
-//         res.status(500).json({
-//             message: "Error fetching image"
-//         })
-//     }
-// })
+router.get("/image/:id", async (req, res) => {
+    try {
+        const bucket = req.app.locals.bucket
+        const fileId = new mongoose.Types.ObjectId(req.params.id)
+        const downloadStream = bucket.openDownloadStream(fileId)
+        downloadStream.on("data", (chunk) => {
+            res.write(chunk)
+        })
+        downloadStream.on("error", () => {
+            return res.status(404).json({
+                message: "Image not found"
+            })
+        })
+        downloadStream.on("end", () => {
+            res.end()
+        })
+    } catch (err) {
+        res.status(500).json({
+            message: "Error fetching image"
+        })
+    }
+})
 module.exports = router

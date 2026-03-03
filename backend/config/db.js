@@ -12,7 +12,7 @@ const connectDB = async (app) => {
             bucketName: "uploads"
         })
         app.locals.bucket = bucket;
-        console.log("grid file storage bucket created successfully",bucket);
+        console.log("grid file storage bucket created successfully");
     } catch (err) {
         console.error(err);
         process.exit(1);

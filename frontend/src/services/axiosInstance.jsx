@@ -18,7 +18,7 @@ instance.interceptors.response.use(
         if(error.response.status==400 && !originalRequest._retry){
             originalRequest._retry=true 
             try{
-                await axios.post("http://localhost:2000/api/seller/refresh-token",{},{
+                await axios.post("http://localhost:2000/api/refresh-token",{},{
                     withCredentials:true
                 })
                 .then((res)=>{
