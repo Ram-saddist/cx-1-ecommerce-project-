@@ -9,6 +9,7 @@ import SellerDashboard from "./pages/Seller/Sellerdashboard"
 import AddProduct from "./pages/Seller/AddProduct"
 import BuyerRegister from "./pages/Buyer/BuyerRegister"
 import BuyerLogin from "./pages/Buyer/BuyerLogin"
+import Home from "./pages/Home.jsx"
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
       <Navigation />
 
       <Routes>
+        <Route path="/" element={<Home />} />
         <Route path="/register" element={<RegisterSelection />} />
         <Route path="/login" element={<LoginSelection />} />
         <Route path="/seller/register" element={<SellerRegister />} />

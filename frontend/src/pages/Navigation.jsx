@@ -20,6 +20,7 @@ export default function Navigation() {
             {
                 !user && (
                     <>
+                        <Link to='/'>Home</Link>
                         <Link to="/login">Login</Link>
                         <Link to="/register">Register</Link>
                     </>

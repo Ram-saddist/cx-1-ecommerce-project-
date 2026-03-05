@@ -100,4 +100,22 @@ router.get("/image/:id", async (req, res) => {
         })
     }
 })
+
+router.get("/all-products", async (req, res) => {
+    try {
+
+        const products = await Product.find()
+            .populate("seller", "name email")
+            .sort({ createdAt: -1 })
+
+        res.status(200).json(products)
+
+    } catch (err) {
+        console.log(err)
+        res.status(500).json({
+            message: "Error fetching products"
+        })
+    }
+})
+
 module.exports = router

@@ -6,7 +6,7 @@ import { AuthContext } from "../../context/AuthContext"
 export default function BuyerLogin() {
 
     const navigate = useNavigate()
-    const { setUser } = useContext(AuthContext)
+    const { login } = useContext(AuthContext)
 
     const [formData, setFormData] = useState({
         email: "",
@@ -38,7 +38,7 @@ export default function BuyerLogin() {
                 localStorage.setItem("token", res.data.token)
 
                 // Save user in context
-                setUser(res.data.user)
+                login(res.data)
 
                 alert("Login Successful")
 
@@ -68,6 +68,7 @@ export default function BuyerLogin() {
                 <input
                     type="password"
                     name="password"
+                    
                     placeholder="Enter Password"
                     onChange={handleChange}
                 /><br /><br />
