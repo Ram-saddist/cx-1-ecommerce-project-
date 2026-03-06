@@ -6,6 +6,9 @@ const sellerRoutes= require("./routes/sellerRoutes.js")
 const productRoutes= require("./routes/productRoutes.js")
 const buyerRoutes = require("./routes/buyerAuthRoutes")
 const authRoutes = require("./routes/authRoutes")
+const cartRoutes = require("./routes/cartRoutes")
+const orderRoutes = require("./routes/orderRoutes")
+
 
 const cookieParser =require("cookie-parser")
 require("dotenv").config()
@@ -25,5 +28,7 @@ app.use("/api", authRoutes)
 app.use("/api/seller",sellerRoutes)
 app.use("/api/product",productRoutes)
 app.use("/api/buyer", buyerRoutes)
+app.use("/api/cart", cartRoutes)
+app.use("/api/orders", orderRoutes)
 
 app.listen(process.env.PORT,()=>console.log("Server is running on port",process.env.PORT))

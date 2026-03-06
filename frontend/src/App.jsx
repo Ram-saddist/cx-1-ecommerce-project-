@@ -9,6 +9,11 @@ import SellerDashboard from "./pages/Seller/Sellerdashboard"
 import AddProduct from "./pages/Seller/AddProduct"
 import BuyerRegister from "./pages/Buyer/BuyerRegister"
 import BuyerLogin from "./pages/Buyer/BuyerLogin"
+import CartPage from "./pages/Buyer/CartPage.jsx"
+import CheckoutPage from "./pages/Buyer/CheckoutPage"
+import OrdersPage from "./pages/Buyer/OrdersPage"
+import BuyerDashboard from "./pages/Buyer/BuyerDashboard"
+
 import Home from "./pages/Home.jsx"
 
 function App() {
@@ -42,6 +47,39 @@ function App() {
         />
         <Route path="/buyer/register" element={<BuyerRegister />} />
         <Route path="/buyer/login" element={<BuyerLogin />} />
+
+        <Route
+          path="/buyer/cart"
+          element={
+            <ProtectedRoute roles={["buyer"]}>
+              <CartPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/buyer/checkout"
+          element={
+            <ProtectedRoute roles={["buyer"]}>
+              <CheckoutPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/buyer/order"
+          element={
+            <ProtectedRoute roles={["buyer"]}>
+              <OrdersPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/buyer/dashboard"
+          element={
+            <ProtectedRoute roles={["buyer"]}>
+              <BuyerDashboard />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
 
     </BrowserRouter>

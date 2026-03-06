@@ -1,37 +1,81 @@
 const jwt = require("jsonwebtoken")
-const Seller = require("../models/Seller.js")
+const Seller = require("../models/Seller")
+const Buyer = require("../models/Buyer")
 
-const protect= async(req,res,next)=>{
+const protect = async (req, res, next) => {
+
     let token
-    //console.log(req.headers.authorization)
-    if(req.headers.authorization && req.headers.authorization.startsWith("Bearer")){
-        try{
-            token=req.headers.authorization.split(" ")[1]
-            console.log("from protect",token)
-            const decoded=jwt.verify(token,process.env.JWT_SECRET)
-            console.log("----",await Seller.findById(decoded.id))
-            req.user= await Seller.findById(decoded.id)
-                                    .select("-password -refreshToken")
-            console.log("user ====",req.user)
+
+    if (req.headers.authorization && req.headers.authorization.startsWith("Bearer")) {
+
+        try {
+
+            token = req.headers.authorization.split(" ")[1]
+
+            const decoded = jwt.verify(token, process.env.JWT_SECRET)
+
+            let user
+
+            // 🔹 Check role and fetch correct user
+            if (decoded.role === "seller") {
+
+                user = await Seller.findById(decoded.id)
+                    .select("-password -refreshToken")
+
+            }
+            else if (decoded.role === "buyer") {
+
+                user = await Buyer.findById(decoded.id)
+                    .select("-password -refreshToken")
+
+            }
+
+            if (!user) {
+                return res.status(401).json({ message: "User not found" })
+            }
+
+            req.user = user
+
             next()
+
         }
-        catch(err){
-            return res.status(401).json({message:`Access denied ${err}`})
+        catch (err) {
+
+            return res.status(401).json({
+                message: "Token invalid"
+            })
+
         }
+
     }
-    if(!token){
-        return res.status(401).json({message:"No token in the request"})
+    else {
+
+        return res.status(401).json({
+            message: "No token provided"
+        })
+
     }
+
 }
 
-const authorizeRole = (...roles)=>{
-        console.log("authorize",...roles)
-    return(req,res,next)=>{
-        if(!roles.includes(req.user.role)){
-            return res.status(403).json({message:"Access denied for this operation"})
+
+
+const authorizeRole = (...roles) => {
+
+    return (req, res, next) => {
+
+        if (!roles.includes(req.user.role)) {
+
+            return res.status(403).json({
+                message: "Access denied for this role"
+            })
+
         }
+
         next()
+
     }
+
 }
 
-module.exports={protect,authorizeRole}
+module.exports = { protect, authorizeRole }

@@ -50,45 +50,48 @@ export default function Home() {
   }
 
   return (
-    <div>
+    <div className="container mt-4">
 
-      <h2>All Products</h2>
+      <h2 className="mb-4 text-center">All Products</h2>
 
-      <div style={{
-        display: "flex",
-        flexWrap: "wrap",
-        gap: "20px"
-      }}>
+      <div className="row">
 
         {products.map((p) => (
-          <div
-            key={p._id}
-            style={{
-              border: "1px solid gray",
-              padding: "10px",
-              width: "200px"
-            }}
-          >
 
-            {p.images?.length > 0 && (
-              <img
-                src={`http://localhost:2000/api/products/image/${p.images[0]}`}
-                alt={p.name}
-                width="180"
-              />
-            )}
+          <div key={p._id} className="col-md-3 mb-4">
 
-            <h4>{p.name}</h4>
+            <div className="card h-100 shadow-sm">
 
-            <p>{p.description}</p>
+              {p.images?.length > 0 && (
+                <img
+                  src={`http://localhost:2000/api/products/image/${p.images[0]}`}
+                  className="card-img-top"
+                  alt={p.name}
+                  style={{ height: "200px", objectFit: "cover" }}
+                />
+              )}
 
-            <p>₹{p.price}</p>
+              <div className="card-body d-flex flex-column">
 
-            <button onClick={() => handleAddToCart(p._id)}>
-              Add To Cart
-            </button>
+                <h5 className="card-title">{p.name}</h5>
+
+                <p className="card-text">{p.description}</p>
+
+                <p className="fw-bold text-success">₹{p.price}</p>
+
+                <button
+                  className="btn btn-primary mt-auto"
+                  onClick={() => handleAddToCart(p._id)}
+                >
+                  Add To Cart
+                </button>
+
+              </div>
+
+            </div>
 
           </div>
+
         ))}
 
       </div>
